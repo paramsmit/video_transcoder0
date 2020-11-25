@@ -1,0 +1,22 @@
+{
+  "name": "video_transcoder0",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-generator": "^4.16.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "multer": "^1.4.2"
+  }
+}
