@@ -28,11 +28,17 @@ app.post('/fileupload', upload.single("filetoupload") , async function(req,res,n
 
 app.post('/fileupload',async function(req,res,next){
     await zip('./converted_files', './archives/archive.zip')
-    removefiles('converted_files')
-    removefiles('uploads') 
-    res.download('./archives/archive.zip')
-    // removefiles('archives')
+    // lock logic 
+    next()
 })
 
+
+app.post('/fileupload', (req,res,next)=>{
+
+    removefiles('converted_files')
+    removefiles('uploads')
+    res.download('./archives/archive.zip')
+
+})
 
 app.listen('3000')
