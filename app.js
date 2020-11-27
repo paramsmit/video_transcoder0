@@ -7,6 +7,7 @@ const {zip} = require('zip-a-folder')
 const {removefiles} = require('./removefiles')
 const storage = require('./storage')
 const convertfile = require('./convertfile')
+
 app.use(express.static('./views/'))
 
 var upload = multer({storage : storage})
@@ -17,28 +18,35 @@ app.post('/fileupload', upload.single("filetoupload") , async function(req,res,n
         return
     }
 
-    // convertfile(req.file.originalname, 'flv').then(
-    //     result=>convertfile(req.file.originalname,'mp4').then(result=>next())
-    // )   
-
-    await convertfile(req.file.originalname,'flv')
-    await convertfile(req.file.originalname, 'mp4')
-    next()
+    // conversion of files in below 3 formats
+    try{    
+        await convertfile(req.file.originalname,'flv')
+        await convertfile(req.file.originalname, 'mp4')
+        await convertfile(req.file.originalname, 'asf')
+        next()
+    }catch(err){
+        res.send("invalid input or internal server error")
+    }   
 })
 
 app.post('/fileupload',async function(req,res,next){
-    await zip('./converted_files', './archives/archive.zip')
-    // lock logic 
-    next()
+    try{
+        await zip('./converted_files', './archives/archive.zip')
+        // lock logic 
+        next()
+    }
+    catch(err){
+        res.send("internal server error")
+    }
 })
 
 
 app.post('/fileupload', (req,res,next)=>{
 
+    res.download('./archives/archive.zip')
     removefiles('converted_files')
     removefiles('uploads')
-    res.download('./archives/archive.zip')
-
+    removefiles('archives')
 })
 
 app.listen('3000')
