@@ -1,6 +1,8 @@
 const fs = require('fs')
 const path = require('path')
 
+// function to remove files from the directory 
+
 function removefiles(directory){
     fs.readdir(directory, (err, files) => {
         if (err) throw err  

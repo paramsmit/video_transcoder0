@@ -1,6 +1,8 @@
 const ffmpeg = require("fluent-ffmpeg")
 const path = require('path')
 
+// function to convert files to the given format
+
 module.exports = function convertfiles(original_filename, format){
     return new Promise((resolve,reject) => {
         ffmpeg(path.join('./uploads',original_filename))
@@ -16,7 +18,5 @@ module.exports = function convertfiles(original_filename, format){
                 resolve(stdout)
                 console.log(stdout, stderr);
             })
-            // .saveToFile(`./converted_files/convertedfile.${format}`)
-        
     })
 } 

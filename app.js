@@ -13,6 +13,7 @@ app.use(express.static('./views/'))
 var upload = multer({storage : storage})
 
 app.post('/fileupload', upload.single("filetoupload") , async function(req,res,next){
+    
     if(req.file === undefined) {
         res.send("please upload the file")
         return
@@ -29,10 +30,10 @@ app.post('/fileupload', upload.single("filetoupload") , async function(req,res,n
     }   
 })
 
+// zip the converted files to download 
 app.post('/fileupload',async function(req,res,next){
     try{
         await zip('./converted_files', './archives/archive.zip')
-        // lock logic 
         next()
     }
     catch(err){
@@ -40,13 +41,17 @@ app.post('/fileupload',async function(req,res,next){
     }
 })
 
+// download and remove the files in the server directories
+app.post('/fileupload', (req,res,next) => {
 
-app.post('/fileupload', (req,res,next)=>{
-
-    res.download('./archives/archive.zip')
-    removefiles('converted_files')
-    removefiles('uploads')
-    removefiles('archives')
+    try{
+        res.download('./archives/archive.zip')
+        removefiles('converted_files')
+        removefiles('uploads')
+        removefiles('archives')
+    }catch(e){
+        res.send('internal server error')
+    }
 })
 
 app.listen('3000')
