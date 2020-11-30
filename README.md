@@ -9,7 +9,7 @@
    you can download it from here
    https://www.filehorse.com/download-ffmpeg-64/
   </br>
-   set enviroment variable 'path' to the bin folder inside the ffmpeg folder
+   set enviroment variable 'path' to the bin folder located inside the extracted ffmpeg folder
   </br>
 </p>
 
